@@ -6,6 +6,7 @@ public class FormA {
     private String jobTitle;
     private String yearsOfExp;
 
+    //constructor
     public FormA(String firstName, String lastName, String jobTitle, String yearsOfExp) {
         this.firstName = firstName;
         this.lastName = lastName;
