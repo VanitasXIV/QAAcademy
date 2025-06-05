@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Main {
     //String chromeDriverPath = "/Workspace/chromedriver/chromedriver.exe";
-    String chromeDriverPath = "/Users/martinlequerica/Documents/webdriver/chromedriver-mac-arm64/chromedriver";
+    String chromeDriverPath = "C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\main\\resources\\chromedriver.exe";
 
     public static void main(String[] args) {
         System.out.println("Todo listo para la ejecucion.");
