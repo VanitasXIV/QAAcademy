@@ -73,7 +73,7 @@ public class MainTest {
         for (TorneoForm usuario : usuarios) {
             System.out.println("Testeando usuario: " + usuario.getNombreCompleto());
 
-            driver.get("http://127.0.0.1:5500/registro.html");
+            driver.get("C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\main\\resources\\TorneoHTML\\registro.html");
 
             WebElement nombreCompletoInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[1]/input"));
             nombreCompletoInput.sendKeys(usuario.getNombreCompleto());
