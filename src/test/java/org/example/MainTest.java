@@ -85,7 +85,7 @@ public class MainTest {
             emailInput.sendKeys(usuario.getEmail());
 
 
-            if(usuario.getDiscordUser() != null) {
+            if (usuario.getDiscordUser() != null) {
                 WebElement discordUserInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[4]/input"));
                 discordUserInput.sendKeys(usuario.getDiscordUser());
             }
@@ -176,4 +176,90 @@ public class MainTest {
         assertEquals("Formy", tituloPagina, "El título de la página no es el esperado");
     }
 */
+
+    @Test
+    public void testFormularioConCamposVacios() {
+        driver.get("C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\main\\resources\\TorneoHTML\\registro.html");
+
+        // Intentar enviar el formulario sin completar campos
+        WebElement submitButton = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/button[1]"));
+        submitButton.click();
+
+        // Verificar que se mantiene en la misma página
+        String tituloPagina = driver.getTitle();
+        assertEquals("QA Academy - Torneo Kopius", tituloPagina, "El título de la página no es el esperado");
+    }
+
+    @Test
+    public void testFormularioConCamposObligatorios() {
+        driver.get("C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\main\\resources\\TorneoHTML\\registro.html");
+
+        Optional<TorneoForm> usuario = crearInputsDelForm().stream()
+                .filter(p -> p.getDiscordUser() == null && p.getSideRole() == null)
+                .findFirst();
+
+        // Completar solo los campos obligatorios
+        WebElement nombreCompletoInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[1]/input"));
+        nombreCompletoInput.sendKeys(usuario.get().getNombreCompleto());
+
+        WebElement telefonoInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[2]/input"));
+        telefonoInput.sendKeys(usuario.get().getTelefono());
+
+        WebElement emailInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[3]/input"));
+        emailInput.sendKeys(usuario.get().getEmail());
+
+        WebElement inGameNameInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[5]/input"));
+        inGameNameInput.sendKeys(usuario.get().getInGameName());
+
+        WebElement nivelInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[6]/input"));
+        nivelInput.sendKeys(String.valueOf(usuario.get().getNivel()));
+
+        Select mainRoleSelect = new Select(driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[7]/select")));
+        mainRoleSelect.selectByVisibleText(usuario.get().getMainRole().getClassName());
+
+        Select countrySelect = new Select(driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[9]/select")));
+        countrySelect.selectByVisibleText("Argentina");
+
+        // Enviar el formulario
+        WebElement submitButton = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/button[1]"));
+        submitButton.click();
+
+        // Verificar que se muestra el mensaje de éxito
+        Alert alerta = driver.switchTo().alert();
+        String mensaje = alerta.getText();
+        assertEquals("Formulario enviado con éxito. ¡Gracias por registrarte!", mensaje, "El mensaje de confirmación no es el esperado");
+        alerta.accept();
+    }
+
+    @Test
+    public void testFormularioCamposEspeciales(){
+        driver.get("C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\main\\resources\\TorneoHTML\\registro.html");
+
+        // Completar campos con caracteres especiales
+        WebElement nombreCompletoInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[1]/input"));
+        nombreCompletoInput.sendKeys("Andrés_Gómez");
+
+        WebElement telefonoInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[2]/input"));
+        telefonoInput.sendKeys("%%%12345678");
+
+        WebElement emailInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[3]/input"));
+        emailInput.sendKeys("andresgomez@@gmail.com");
+
+        WebElement inGameNameInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[5]/input"));
+        inGameNameInput.sendKeys("AndresG");
+        WebElement nivelInput = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[6]/input"));
+        nivelInput.sendKeys("aa");
+
+        Select mainRoleSelect = new Select(driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[7]/select")));
+        mainRoleSelect.selectByVisibleText("TOP");
+
+        Select countrySelect = new Select(driver.findElement(By.xpath("//*[@id=\"registroForm\"]/label[9]/select")));
+        countrySelect.selectByVisibleText("Argentina");
+        // Enviar el formulario
+        WebElement submitButton = driver.findElement(By.xpath("//*[@id=\"registroForm\"]/button[1]"));
+        submitButton.click();
+
+        assertNotEquals("Formulario enviado con éxito. ¡Gracias por registrarte!",
+                driver.switchTo().alert().getText(), "El mensaje de confirmación no es el esperado");
+    }
 }
