@@ -1,34 +1,25 @@
 package org.example;
-import org.example.ClassRole;
 
 public class TorneoForm {
-    private String nombreCompleto;
-    private String telefono;
-    private String email;
-    private String discordUser;
-    private String inGameName;
-    private int nivel;
-    private ClassRole mainRole;
-    private ClassRole sideRole;
 
-    //Usando un constructor para inicializar los campos. Se podría usar
-    //el patrón Builder pero considero que es innecesario añadirle más complejidad
-    //cuando se puede utilizar dos valores null para los campos opcionales.
-    public TorneoForm(String nombreCompleto, String telefono, String email, String inGameName,
-                      int nivel, ClassRole mainRole, String discordUser, ClassRole sideRole) {
-        this.nombreCompleto = nombreCompleto;
-        this.telefono = telefono;
-        this.email = email;
-        this.discordUser = discordUser;
-        this.inGameName = inGameName;
-        this.nivel = nivel;
-        this.mainRole = mainRole;
-        this.sideRole = sideRole;
+    private Jugador jugador;
+    private String nombreCompleto = jugador.getNombreCompleto();
+    private String telefono = jugador.getTelefono();
+    private String email = jugador.getEmail();
+    private String discordUser = jugador.getDiscordUser();
+    private String inGameName = jugador.getInGameName();
+    private int nivel = jugador.getNivel();
+    private ClassRole mainRole = jugador.getMainRole();
+    private ClassRole sideRole = jugador.getSideRole();
+
+    public TorneoForm(Jugador jugador){
+        this.jugador = jugador;
     }
 
     public String getNombreCompleto() {
         return nombreCompleto;
     }
+
     public String getTelefono() {
         return telefono;
     }
