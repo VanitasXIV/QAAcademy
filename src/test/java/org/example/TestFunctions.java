@@ -1,8 +1,13 @@
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public abstract class TestFunctions {
     protected WebDriver driver;
@@ -29,5 +34,28 @@ public abstract class TestFunctions {
 
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
+    }
+
+    public String getElementText(String xpath) {
+        return driver.findElement(By.xpath(xpath)).getText();
+    }
+
+    public void waitSeconds(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+    }
+
+    public WebElement waitElementVisible(String xpath){
+        try{
+            WebElement element = driver.findElement(By.xpath(xpath));
+            System.out.println("Element found: " + element.getText());
+            return element;
+        } catch (NoSuchElementException e){
+            System.out.println("Element not found: " + xpath);
+        }
+        return null;
+    }
+
+    public boolean elementExists(String xpath){
+        return driver.findElement(By.xpath(xpath)).isDisplayed();
     }
 }

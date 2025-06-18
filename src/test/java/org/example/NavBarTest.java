@@ -1,10 +1,10 @@
 package org.example;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NavBarTest extends TestFunctions {
     String homePage = "http://127.0.0.1:5500/QAAcademy/src/main/resources/TorneoHTML/HomePage.html";
@@ -15,15 +15,18 @@ public class NavBarTest extends TestFunctions {
     String equiposAsignadosButtonXpath = "/html/body/nav/div/ul[1]/li[3]/a";
     String estadisticasUrl = "http://127.0.0.1:5500/QAAcademy/src/main/resources/TorneoHTML/estadisticas.html";
     String estadisticasButtonXpath = "/html/body/nav/div/ul[1]/li[4]/a";
+    String welcomeQATraineeButtonXpath = "/html/body/nav/div/ul[2]/li/a";
 
+    //Variables para testear dropdown
+    String welcomeQATraineeDropdownOpcionesXpath = "/html/body/nav/div/ul[2]/li/ul/li[1]/a";
 
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
         getUrl(homePage);
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         super.tearDown();
     }
@@ -55,4 +58,13 @@ public class NavBarTest extends TestFunctions {
         clickElement(estadisticasButtonXpath);
         assertEquals(getCurrentUrl(), estadisticasUrl);
     }
+
+    @Test
+    public void testWelcomeQATraineeButton(){
+        getUrl(homePage);
+        clickElement(welcomeQATraineeButtonXpath);
+        assertEquals(getCurrentUrl(), homePage); //No debería llevarnos a otra página
+    }
+
+
 }
