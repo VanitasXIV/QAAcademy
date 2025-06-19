@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class TestFunctions {
     protected WebDriver driver;
@@ -57,5 +59,20 @@ public abstract class TestFunctions {
 
     public boolean elementExists(String xpath){
         return driver.findElement(By.xpath(xpath)).isDisplayed();
+    }
+
+    public List<WebElement> getElements(String xpath){
+        try{
+            List<WebElement> elements = driver.findElements(By.xpath(xpath));
+            if (elements.isEmpty()) {
+                System.out.println("No elements found for xpath: " + xpath);
+            } else {
+                System.out.println("Found " + elements.size() + " elements for xpath: " + xpath);
+            }
+            return elements;
+        } catch (NoSuchElementException e) {
+            System.out.println("No elements found for xpath: " + xpath);
+            return Collections.emptyList();
+        }
     }
 }

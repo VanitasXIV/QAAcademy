@@ -1,6 +1,8 @@
 package org.example;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class EquipoAsignadoTest extends TestFunctions{
     //Xpath
     String equiposAsignadosButtonXpath = "/html/body/nav/div/ul[1]/li[3]/a";
     static int cantidadEquipos = 8;
+    static int cantidadMiembros = 5;
     static List<EquipoAsignadoCard> equiposAsignadosCards = new ArrayList<>();
 
     @BeforeAll
@@ -42,4 +45,12 @@ public class EquipoAsignadoTest extends TestFunctions{
             Assertions.assertTrue(elementExists(cardElement.getCardMembersPanelXpath()));
         }
     }
+
+    @Test
+    public void elLiderDefaultFueElegidoCorrectamente(){
+        String miembros = getElementText(equiposAsignadosCards.get(0).getCardMembersPanelXpath());
+        System.out.println(miembros);
+    }
+
 }
+

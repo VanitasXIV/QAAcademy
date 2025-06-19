@@ -1,18 +1,33 @@
 package org.example;
 
-public class EquipoAsignadoCard {
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class EquipoAsignadoCard extends TestFunctions {
     int i;
     String cardContainerXpath;
     String cardTeamNameXpath;
     String cardCaptainNameXpath;
     String cardMembersPanelXpath;
+    ArrayList<JugadorTest> miembrosEquipo = new ArrayList<>();
 
-    public EquipoAsignadoCard(int i){
+    public EquipoAsignadoCard(int i) {
         this.i = i;
-        this.cardContainerXpath = String.format("/html/body/div[%s]/div/div", i+1);
+        this.cardContainerXpath = String.format("/html/body/div[%s]/div/div", i + 1);
         this.cardTeamNameXpath = cardContainerXpath + "/div[1]";
         this.cardCaptainNameXpath = cardContainerXpath + "/div[2]";
         this.cardMembersPanelXpath = cardContainerXpath + "/div[3]";
+        addMiembrosFromCard(getMiembros());
+
+    }
+
+    public void addMember(JugadorTest jugador) {
+        miembrosEquipo.add(jugador);
     }
 
     public void setCardContainerXpath(String cardContainerXpath) {
@@ -47,5 +62,33 @@ public class EquipoAsignadoCard {
         return cardMembersPanelXpath;
     }
 
+    //TODO mejorar método para que sea mejor legible
+    public String getMiembroMayorNivel() {
+        String nombreMiembroMayorNivel = "";
+        int nivelMayor = 0;
+        for (JugadorTest jugador : miembrosEquipo) {
+            if(nombreMiembroMayorNivel.isEmpty() || jugador.getNivel() > nivelMayor) {
+                nombreMiembroMayorNivel = jugador.getNombre();
+            }
+        }
 
+        return nombreMiembroMayorNivel;
+    }
+
+    private void addMiembrosFromCard(String[] miembros) {
+        for (String linea : miembros) {
+            if(linea.contains(":")){
+                String[] partes = linea.split(":",2);
+                String rol = partes[0].trim();
+                String nombre = partes[1].split("\\(")[0].trim();
+                int nivel = Integer.parseInt(partes[1].replaceAll(".*Nivel: (\\d+)\\)", "$1"));
+
+                miembrosEquipo.add(new JugadorTest(rol, nombre, nivel));
+            }
+        }
+    }
+
+    private String[] getMiembros() {
+        return getElementText(getCardMembersPanelXpath()).split("\n");
+    }
 }
