@@ -17,6 +17,7 @@ public class EquipoAsignadoTest extends TestFunctions{
     static int cantidadMiembros = 5;
     static List<EquipoAsignadoCard> equiposAsignadosCards = new ArrayList<>();
 
+
     @BeforeAll
     public static void suiteSetUp() {
         for (int i=0; i < cantidadEquipos; i++){
@@ -48,8 +49,13 @@ public class EquipoAsignadoTest extends TestFunctions{
 
     @Test
     public void elLiderDefaultFueElegidoCorrectamente(){
-        String miembros = getElementText(equiposAsignadosCards.get(0).getCardMembersPanelXpath());
-        System.out.println(miembros);
+        for( EquipoAsignadoCard cardElement : equiposAsignadosCards){
+            String expectedCaptainName = cardElement.getMiembroMayorNivel();
+            System.out.println(expectedCaptainName);
+            String actualCaptainName = getElementText(cardElement.getCardCaptainNameXpath());
+            System.out.println(actualCaptainName);
+            Assertions.assertEquals(expectedCaptainName, actualCaptainName);
+        }
     }
 
 }

@@ -67,7 +67,7 @@ public class EquipoAsignadoCard extends TestFunctions {
         String nombreMiembroMayorNivel = "";
         int nivelMayor = 0;
         for (JugadorTest jugador : miembrosEquipo) {
-            if(nombreMiembroMayorNivel.isEmpty() || jugador.getNivel() > nivelMayor) {
+            if (nombreMiembroMayorNivel.isEmpty() || jugador.getNivel() > nivelMayor) {
                 nombreMiembroMayorNivel = jugador.getNombre();
             }
         }
@@ -77,13 +77,12 @@ public class EquipoAsignadoCard extends TestFunctions {
 
     private void addMiembrosFromCard(String[] miembros) {
         for (String linea : miembros) {
-            if(linea.contains(":")){
-                String[] partes = linea.split(":",2);
+            if (linea.contains(":")) {
+                String[] partes = linea.split(":", 2);
                 String rol = partes[0].trim();
                 String nombre = partes[1].split("\\(")[0].trim();
                 int nivel = Integer.parseInt(partes[1].replaceAll(".*Nivel: (\\d+)\\)", "$1"));
-
-                miembrosEquipo.add(new JugadorTest(rol, nombre, nivel));
+                addMember(new JugadorTest(rol, nombre, nivel));
             }
         }
     }

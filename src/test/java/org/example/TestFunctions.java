@@ -16,7 +16,7 @@ public abstract class TestFunctions {
 
     public void setUp() {
         // Seteás el path del driver antes de crear el ChromeDriver
-        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\test\\resources\\chromedriver.exe");
         driver = new ChromeDriver();
     }
 
@@ -74,5 +74,12 @@ public abstract class TestFunctions {
             System.out.println("No elements found for xpath: " + xpath);
             return Collections.emptyList();
         }
+    }
+
+    public int countElementsByClass(String className){
+        List<WebElement> elements = driver.findElements(By.className(className));
+        int count = elements.size();
+
+        return count;
     }
 }
