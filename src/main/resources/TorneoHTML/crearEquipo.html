@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>QA Academy - Lider - Nombre equipo</title> <!---->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-static-top"> <!--Menu Desplegable-->
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://kopiustech.com/es/">QA Academy</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+      <li><a href="/registro"><span class="glyphicon glyphicon-list-alt"></span> Registro de Jugador</a></li>
+      <li><a href="/jugadores"><span class="glyphicon glyphicon-user"></span> Ver Jugadores</a></li>
+      <li><a href="/equipos"><span class="glyphicon glyphicon-upload"></span> Equipos asignados</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Welcome QA Trainee <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+		  <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Opciones </a></li>
+		  <li><a href="/nombre_equipo"><span class="glyphicon glyphicon-text-size"></span> Nombre Equipo</a></li>
+		  <li><a href="/panel_admin"><span class="glyphicon glyphicon-calendar"></span> Fecha Torneo</a></li>
+          <li><a href="/home"><span class="glyphicon glyphicon-log-in"></span> Desloguear</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+  <div class="container"> <!--Descripcion-->
+  <h1>Elegir Nombre del Equipo</h1>
+  <p></p>
+  <div class="panel-group">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <form id="equipoForm">
+                <div class="form-group">
+                    <label for="nombre_equipo">Nombre del equipo:</label>
+                    <input type="text" class="form-control" id="nombre_equipo" name="nombre_equipo" required>
+                </div>
+                <input type="hidden" id="equipo_id" name="equipo_id" value="1">
+                <button type="submit" class="btn btn-primary">Guardar Nombre</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='mail_equipo_creado.html'">Vista Previa</button>
+            </form>
+
+            <script>
+            document.getElementById('equipoForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const nombre = document.getElementById('nombre_equipo').value;
+
+                fetch('/api/equipos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre_equipo: nombre
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en el servidor');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    window.location.href = `equipo_creado.html?id=${encodeURIComponent(id)}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+            </script>
+        </div>
+    </div>
+  </div>
+</div>
+
+  <script>
+    // Cargar el equipo existente si ya existe
+    window.onload = function() {
+      const equipoId = document.getElementById('equipo_id').value;
+      fetch(`/api/equipos/${equipoId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al obtener el equipo');
+          }
+          return response.json();
+        })
+        .then(equipo => {
+          if (equipo) {
+            document.getElementById('nombre_equipo').value = equipo.nombre;
+            alert('Equipo cargado exitosamente');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    };
+
+    const form = document.getElementById('equipoForm');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const nombre = document.getElementById('nombre_equipo').value;
+
+      fetch('/api/equipos', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `nombre_equipo=${encodeURIComponent(nombre)}`
+      })
+      .then(response => response.json())
+      .then(data => {
+          window.location.href = `equipo_creado.html`;
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+    });
+  </script>
+</body>
+</html>
