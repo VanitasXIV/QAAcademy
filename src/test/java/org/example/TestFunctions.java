@@ -84,10 +84,10 @@ public abstract class TestFunctions {
     public int countNumberedElements(String xpathPartOne, String xpathPartTwo) {
         int count = 0;
         while (true) {
-            String xpath = xpathPartOne + (count + 1) + xpathPartTwo;
+            String xpath = xpathPartOne + (count + 2) + xpathPartTwo;
             try {
                 if (driver != null || driver.findElement(By.xpath(xpath)) != null) {
-                    driver.findElement(By.xpath(xpath));
+                    System.out.println(driver.findElement(By.xpath(xpath)));
                     count++;
                 }
             } catch (NoSuchElementException e) {

@@ -12,6 +12,7 @@ public class EquipoAsignadoTest extends TestFunctions {
 
 
     //Xpath
+
     String equiposAsignadosButtonXpath = "/html/body/nav/div/ul[1]/li[3]/a";
     String cardContainerXpathPartOne = "/html/body/div[";
     String getCardContainerXpathPartTwo = "]/div/div";
@@ -46,10 +47,12 @@ public class EquipoAsignadoTest extends TestFunctions {
     @Test
     public void verificar40MiembrosEnTotal() {
         int cantidadEquipos = countNumberedElements(cardContainerXpathPartOne, getCardContainerXpathPartTwo);
+        System.out.println(cantidadEquipos);
         int totalMembers = 0;
 
         for (int i = 0; i < cantidadEquipos; i++) {
             String membersListXpath = cardContainerXpathPartOne + (i + 2) + getCardContainerXpathPartTwo + memberUnorderedListLocatorXpath;
+            System.out.println(membersListXpath);
             totalMembers += countUnorderedListItems(membersListXpath);
         }
 
@@ -83,13 +86,18 @@ public class EquipoAsignadoTest extends TestFunctions {
         return memberWithHighestLevel;
     }
 
+    //rompe porque el primer card tiene un dl
     @Test
     public void elLiderDefaultFueElegidoCorrectamente() {
         int cantidadEquipos = countNumberedElements(cardContainerXpathPartOne, getCardContainerXpathPartTwo);
+        System.out.println(cantidadEquipos);
 
-        for (int i = 2; i < cantidadEquipos; i++) {
+        for (int i = 1; i < cantidadEquipos; i++) {
+            System.out.println(i);
             String leaderName = getElementText(cardContainerXpathPartOne + (i) + getCardContainerXpathPartTwo + leaderNameLocatorXpath).replace("Líder: ", "");
             String memberWithHighestLevel = getMemberWithHighestLevel(i);
+            System.out.println("Líder esperado: " + leaderName);
+            System.out.println("Miembro con mayor nivel: " + memberWithHighestLevel);
             Assertions.assertEquals(leaderName, memberWithHighestLevel);
         }
     }
