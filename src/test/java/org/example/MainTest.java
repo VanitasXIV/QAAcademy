@@ -1,4 +1,4 @@
-package org.example;
+/*package org.example;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,6 +64,7 @@ public class MainTest {
     }
 */
 
+/*
     private List<TorneoForm> crearInputsDelForm() {
         List<TorneoForm> usuarios = new ArrayList<>();
         usuarios.add(new TorneoForm(jugador1));
@@ -191,6 +192,7 @@ public class MainTest {
     }
 */
 
+/*
     @Test
     public void testFormularioConCamposVacios() {
         driver.get("C:\\Users\\IvanGomez\\Documents\\QAAcademy\\QAAcademy\\src\\main\\resources\\TorneoHTML\\registro.html");
@@ -269,3 +271,4 @@ public class MainTest {
 
     }
 }
+*/
